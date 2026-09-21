@@ -12,6 +12,8 @@ import {
   RotateCcw,
   Calendar,
   Sparkles,
+  FileDown,
+  Loader2,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -20,6 +22,8 @@ interface NavbarProps {
   anonymize: boolean;
   onToggleAnonymize: () => void;
   onOpenStudyStartModal: () => void;
+  onExportPdf?: () => void;
+  isExportingPdf?: boolean;
 }
 
 export function Navbar({
@@ -28,6 +32,8 @@ export function Navbar({
   anonymize,
   onToggleAnonymize,
   onOpenStudyStartModal,
+  onExportPdf,
+  isExportingPdf,
 }: NavbarProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -161,15 +167,33 @@ export function Navbar({
                 <span className="hidden sm:inline">{anonymize ? 'MASK ON' : 'ANONYMIZE'}</span>
               </button>
 
+              {/* Export PDF Dossier */}
+              {onExportPdf && (
+                <button
+                  type="button"
+                  onClick={onExportPdf}
+                  disabled={isExportingPdf}
+                  className="inline-flex h-8 sm:h-9 items-center justify-center gap-1.5 border-2 border-[#1076db] bg-[#1076db] px-2.5 sm:px-3 font-mono text-xs font-bold uppercase tracking-wider text-white hover:bg-black hover:border-white transition-none cursor-pointer whitespace-nowrap disabled:opacity-50"
+                  title="Export academic PDF dossier"
+                >
+                  {isExportingPdf ? (
+                    <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+                  ) : (
+                    <FileDown className="h-3.5 w-3.5 shrink-0" />
+                  )}
+                  <span>{isExportingPdf ? 'PDF...' : 'PDF'}</span>
+                </button>
+              )}
+
               {/* Export JSON */}
               <button
                 type="button"
                 onClick={handleExportJson}
                 className="inline-flex h-8 sm:h-9 items-center justify-center gap-1.5 border-2 border-white bg-white px-2.5 sm:px-3 font-mono text-xs font-bold uppercase tracking-wider text-black hover:bg-[#1076db] hover:border-[#1076db] hover:text-white transition-none cursor-pointer whitespace-nowrap"
-                title="Export transcript JSON"
+                title="Export transcript JSON backup"
               >
                 <Download className="h-3.5 w-3.5 shrink-0" />
-                <span className="hidden sm:inline">EXPORT</span>
+                <span className="hidden sm:inline">JSON</span>
               </button>
             </>
           )}

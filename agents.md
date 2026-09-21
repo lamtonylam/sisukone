@@ -2,9 +2,7 @@
 
 ## What This Is
 
-**Sisukone** is a 100% client-side academic analytics dashboard for Finnish university students. It parses Sisu transcript PDFs (Opintosuoritusote) directly in the browser — no server, no uploads, no tracking — and visualises credit progression, GPA trends, and projected graduation.
-
-The name is a play on "Sisu" (the Finnish student information system) and "kone" (Finnish for machine/engine).
+**Sisukone** is a client-side academic analytics dashboard for Finnish university students. It parses Sisu transcript PDFs (Opintosuoritusote) in the browser and visualises credit progression, GPA trends, and projected graduation. No server involved — everything runs locally.
 
 ---
 
@@ -181,7 +179,7 @@ docker compose up
 
 ## Agent Guidance
 
-- **Privacy is a core feature.** Never add server-side processing, analytics, or data persistence that involves user transcript data.
+- **Client-side only.** Don't add server-side processing or external data transmission for transcript data.
 - **Design consistency matters.** Any new UI must follow the brutalist system: zero border-radius, 2px/4px borders, `#1076db` accent, monospace labels, ALL CAPS copy. Read `.agent/skills/the-verge/SKILL.md` before touching UI.
 - **`page.tsx` is the state root.** New features should receive data via props and emit changes via callbacks — don't introduce context or global state without discussion.
 - **Parsing is regex-heavy.** When editing `textParser.ts` or `pdfParser.ts`, run vitest tests first: `npm test`. Add regression tests for any new PDF format you handle.

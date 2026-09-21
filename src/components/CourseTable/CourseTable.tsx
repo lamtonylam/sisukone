@@ -10,14 +10,23 @@ import {
   Check,
   X,
   BookOpen,
+  FileDown,
+  Loader2,
 } from 'lucide-react';
 
 interface CourseTableProps {
   courses: Course[];
   onUpdateCourses: (updatedCourses: Course[]) => void;
+  onExportPdf?: () => void;
+  isExportingPdf?: boolean;
 }
 
-export function CourseTable({ courses, onUpdateCourses }: CourseTableProps) {
+export function CourseTable({
+  courses,
+  onUpdateCourses,
+  onExportPdf,
+  isExportingPdf,
+}: CourseTableProps) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedGradeFilter, setSelectedGradeFilter] = useState<string>('all');
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
@@ -159,14 +168,33 @@ export function CourseTable({ courses, onUpdateCourses }: CourseTableProps) {
             <strong className="text-[#1076db]">{totalFilteredCredits} OP</strong>
           </span>
 
-          <button
-            type="button"
-            onClick={() => setIsAddModalOpen(true)}
-            className="inline-flex items-center justify-center gap-1.5 border-2 border-black bg-[#1076db] h-10 sm:h-auto px-4 py-2 font-black text-xs uppercase tracking-wider text-white hover:bg-black hover:text-white transition-none cursor-pointer"
-          >
-            <Plus className="h-4 w-4 shrink-0" />
-            <span>ADD COURSE</span>
-          </button>
+          <div className="flex items-center gap-2">
+            {onExportPdf && (
+              <button
+                type="button"
+                onClick={onExportPdf}
+                disabled={isExportingPdf}
+                className="inline-flex items-center justify-center gap-1.5 border-2 border-black bg-white h-10 sm:h-auto px-3 sm:px-3.5 py-2 font-mono font-bold text-xs uppercase tracking-wider text-black hover:bg-black hover:text-white transition-none cursor-pointer disabled:opacity-50"
+                title="Export PDF dossier"
+              >
+                {isExportingPdf ? (
+                  <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+                ) : (
+                  <FileDown className="h-4 w-4 shrink-0" />
+                )}
+                <span className="hidden sm:inline">EXPORT</span> PDF
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setIsAddModalOpen(true)}
+              className="inline-flex items-center justify-center gap-1.5 border-2 border-black bg-[#1076db] h-10 sm:h-auto px-4 py-2 font-black text-xs uppercase tracking-wider text-white hover:bg-black hover:text-white transition-none cursor-pointer"
+            >
+              <Plus className="h-4 w-4 shrink-0" />
+              <span>ADD COURSE</span>
+            </button>
+          </div>
         </div>
       </div>
 

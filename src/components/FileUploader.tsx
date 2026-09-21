@@ -9,7 +9,6 @@ import {
   Upload,
   FileText,
   ClipboardPaste,
-  ShieldCheck,
   Loader2,
   AlertCircle,
   HelpCircle,
@@ -161,7 +160,7 @@ export function FileUploader({
           </h3>
 
           <p className="mt-1.5 sm:mt-2 text-[11px] sm:text-xs font-mono uppercase tracking-wider text-neutral-600 max-w-md">
-            OFFICIAL TRANSCRIPT OF RECORDS (OPINTOSUORITUSOTE) EXPORTED DIRECTLY FROM SISU. 100% IN-BROWSER PARSING.
+            TRANSCRIPT OF RECORDS (OPINTOSUORITUSOTE) FROM SISU. PARSED LOCALLY IN YOUR BROWSER.
           </p>
 
           {/* Action Buttons - Full-width stacked on mobile, row on desktop */}
@@ -194,12 +193,6 @@ export function FileUploader({
             >
               <span>LOAD SAMPLE DEMO</span>
             </button>
-          </div>
-
-          {/* Privacy Security Badge - High-Contrast #daedff on Black (17.4:1 contrast) */}
-          <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 border-2 border-black bg-black text-[#daedff] px-3.5 sm:px-4 py-1.5 sm:py-2 font-mono text-[10px] sm:text-xs font-black uppercase tracking-wider">
-            <ShieldCheck className="h-4 w-4 shrink-0 text-[#daedff] stroke-[2.5]" />
-            <span>PRIVATE BY DEFAULT</span>
           </div>
         </div>
       </div>

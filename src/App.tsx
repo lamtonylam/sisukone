@@ -8,6 +8,7 @@ import { StudentCreditGraph } from '@/components/Charts/StudentCreditGraph';
 import { StudentGradeGraph } from '@/components/Charts/StudentGradeGraph';
 import { GradeDistribution } from '@/components/Charts/GradeDistribution';
 import { CourseTable } from '@/components/CourseTable/CourseTable';
+import { exportTranscriptPdf } from '@/lib/pdfExporter';
 import {
   LineChart,
   BarChart3,
@@ -24,6 +25,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<'credit' | 'grade' | 'courses'>('credit');
   const [isStudyStartModalOpen, setIsStudyStartModalOpen] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [isExportingPdf, setIsExportingPdf] = useState(false);
 
   // Load persisted transcript from localStorage on mount
   useEffect(() => {
@@ -79,6 +81,22 @@ export default function App() {
     handleUpdateTranscript(updated);
   };
 
+  const handleExportPdf = async () => {
+    if (!transcript) return;
+    try {
+      setIsExportingPdf(true);
+      await exportTranscriptPdf(transcript, {
+        anonymize,
+        includeChart: true,
+      });
+    } catch (err) {
+      console.error('Error exporting PDF:', err);
+      alert('Failed to generate PDF dossier. Please try again.');
+    } finally {
+      setIsExportingPdf(false);
+    }
+  };
+
   if (!isLoaded) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-white p-4">
@@ -101,6 +119,8 @@ export default function App() {
         anonymize={anonymize}
         onToggleAnonymize={() => setAnonymize(!anonymize)}
         onOpenStudyStartModal={() => setIsStudyStartModalOpen(true)}
+        onExportPdf={handleExportPdf}
+        isExportingPdf={isExportingPdf}
       />
 
       {/* Main Content Area */}
@@ -143,6 +163,8 @@ export default function App() {
               transcript={transcript}
               anonymize={anonymize}
               onOpenStudyStartModal={() => setIsStudyStartModalOpen(true)}
+              onExportPdf={handleExportPdf}
+              isExportingPdf={isExportingPdf}
             />
 
             {/* Navigation Tabs - Horizontally scrollable on mobile */}
@@ -210,6 +232,8 @@ export default function App() {
               <CourseTable
                 courses={transcript.courses}
                 onUpdateCourses={handleUpdateCourses}
+                onExportPdf={handleExportPdf}
+                isExportingPdf={isExportingPdf}
               />
             )}
           </div>

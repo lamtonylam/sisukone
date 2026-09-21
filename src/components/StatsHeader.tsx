@@ -7,18 +7,22 @@ import {
   calculateWeightedGpa,
   calculateProjectedGraduation,
 } from '@/lib/chartCalculations';
-import { Calendar } from 'lucide-react';
+import { Calendar, FileDown, Loader2 } from 'lucide-react';
 
 interface StatsHeaderProps {
   transcript: TranscriptData;
   anonymize: boolean;
   onOpenStudyStartModal: () => void;
+  onExportPdf?: () => void;
+  isExportingPdf?: boolean;
 }
 
 export function StatsHeader({
   transcript,
   anonymize,
   onOpenStudyStartModal,
+  onExportPdf,
+  isExportingPdf,
 }: StatsHeaderProps) {
   const { profile, courses } = transcript;
   const { totalCredits } = calculateCumulativeCredits(courses);
@@ -55,20 +59,40 @@ export function StatsHeader({
           </div>
         </div>
 
-        {/* Start Date Configuration Badge */}
-        <button
-          type="button"
-          onClick={onOpenStudyStartModal}
-          className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-2 border-2 border-white bg-white h-10 sm:h-auto px-3.5 py-1.5 sm:px-4 sm:py-2 font-mono text-xs font-bold uppercase tracking-wider text-black hover:bg-[#1076db] hover:border-[#1076db] hover:text-white transition-none cursor-pointer whitespace-nowrap shrink-0"
-        >
-          <div className="flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5 shrink-0 text-black" />
-            <span>START: <strong>{profile.studyStartDate}</strong></span>
-          </div>
-          <span className="font-black bg-black text-white px-2 py-0.5 text-[10px] sm:bg-transparent sm:text-black sm:p-0 sm:underline">
-            [CHANGE]
-          </span>
-        </button>
+        {/* Action Controls: Export PDF and Start Date Badge */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 shrink-0">
+          {onExportPdf && (
+            <button
+              type="button"
+              onClick={onExportPdf}
+              disabled={isExportingPdf}
+              className="inline-flex items-center justify-center gap-1.5 border-2 border-[#1076db] bg-[#1076db] h-10 sm:h-auto px-3.5 py-1.5 sm:px-4 sm:py-2 font-mono text-xs font-black uppercase tracking-wider text-white hover:bg-black hover:border-white transition-none cursor-pointer whitespace-nowrap shrink-0 disabled:opacity-50"
+              title="Download complete academic PDF dossier"
+            >
+              {isExportingPdf ? (
+                <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+              ) : (
+                <FileDown className="h-3.5 w-3.5 shrink-0" />
+              )}
+              <span>{isExportingPdf ? 'GENERATING...' : 'EXPORT PDF'}</span>
+            </button>
+          )}
+
+          {/* Start Date Configuration Badge */}
+          <button
+            type="button"
+            onClick={onOpenStudyStartModal}
+            className="w-full sm:w-auto inline-flex items-center justify-between sm:justify-start gap-2 border-2 border-white bg-white h-10 sm:h-auto px-3.5 py-1.5 sm:px-4 sm:py-2 font-mono text-xs font-bold uppercase tracking-wider text-black hover:bg-[#1076db] hover:border-[#1076db] hover:text-white transition-none cursor-pointer whitespace-nowrap shrink-0"
+          >
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5 shrink-0 text-black" />
+              <span>START: <strong>{profile.studyStartDate}</strong></span>
+            </div>
+            <span className="font-black bg-black text-white px-2 py-0.5 text-[10px] sm:bg-transparent sm:text-black sm:p-0 sm:underline">
+              [CHANGE]
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* KPI 4-Quadrant Grid on mobile (2x2), 4-column on desktop */}

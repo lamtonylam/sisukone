@@ -149,7 +149,7 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
           const d = parseStandardDate(startMatch[1]);
           if (d) detectedStartDate = d;
         } else if (
-          /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)\b/i.test(line) &&
+          /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(line) &&
           rows[i + 1]
         ) {
           const nextDateMatch =

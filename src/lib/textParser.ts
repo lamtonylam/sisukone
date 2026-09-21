@@ -260,7 +260,7 @@ export function parseRawTranscriptText(rawText: string): {
         const d = parseStandardDate(startMatch[1]);
         if (d) studyStartDate = d;
       } else if (
-        /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)\b/i.test(line) &&
+        /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(line) &&
         lines[i + 1]
       ) {
         const nextDateMatch = lines[i + 1].match(DATE_EURO_REGEX) || lines[i + 1].match(DATE_ISO_REGEX);

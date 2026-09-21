@@ -19,6 +19,7 @@ export default defineConfig({
         manualChunks: {
           vendor: ['react', 'react-dom'],
           charts: ['highcharts', 'highcharts-react-official'],
+          pdf: ['jspdf', 'jspdf-autotable'],
         },
       },
     },
