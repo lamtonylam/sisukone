@@ -22,7 +22,10 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
   const { courses } = transcript;
 
   const totalMeans = useMemo(() => calculateTotalMeanSeries(courses), [courses]);
-  const groupMeans = useMemo(() => calculateGroupMeanSeries(courses, groupSize), [courses, groupSize]);
+  const groupMeans = useMemo(
+    () => calculateGroupMeanSeries(courses, groupSize),
+    [courses, groupSize],
+  );
   const semesterMeans = useMemo(() => calculateSemesterMeanSeries(courses), [courses]);
 
   const activePoints = useMemo(() => {
@@ -77,7 +80,12 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
         gridLineColor: '#e5e5e5',
         gridLineDashStyle: 'Dash',
         labels: {
-          style: { color: '#000000', fontSize: '10px', fontFamily: 'monospace', fontWeight: 'bold' },
+          style: {
+            color: '#000000',
+            fontSize: '10px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+          },
           formatter: function () {
             return format(new Date(Number(this.value)), 'MM/yy');
           },
@@ -102,7 +110,12 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
         gridLineColor: '#e5e5e5',
         gridLineDashStyle: 'Dash',
         labels: {
-          style: { color: '#000000', fontSize: '10px', fontFamily: 'monospace', fontWeight: 'bold' },
+          style: {
+            color: '#000000',
+            fontSize: '10px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+          },
           format: '{value:.1f}',
         },
       },
@@ -188,8 +201,8 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
             graphMode === 'total'
               ? 'TOTAL MEAN'
               : graphMode === 'group'
-              ? `GROUP MEAN (BLOCK: ${groupSize})`
-              : 'SEMESTER MEAN',
+                ? `GROUP MEAN (BLOCK: ${groupSize})`
+                : 'SEMESTER MEAN',
           type: 'line',
           data: seriesData,
           color: '#000000',
@@ -257,7 +270,9 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
 
         {graphMode === 'group' && (
           <div className="flex items-center justify-end gap-2 pt-1 sm:pt-0 border-t sm:border-t-0 border-neutral-200">
-            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase text-black">BLOCK SIZE:</span>
+            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase text-black">
+              BLOCK SIZE:
+            </span>
             <input
               type="number"
               min="2"
@@ -266,7 +281,9 @@ export function StudentGradeGraph({ transcript }: StudentGradeGraphProps) {
               onChange={(e) => setGroupSize(Math.max(1, Number(e.target.value)))}
               className="w-14 border-2 border-black px-1.5 py-0.5 font-mono text-xs font-black text-center text-black focus:outline-none"
             />
-            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase text-neutral-600">COURSES</span>
+            <span className="font-mono text-[10px] sm:text-xs font-bold uppercase text-neutral-600">
+              COURSES
+            </span>
           </div>
         )}
       </div>

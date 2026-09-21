@@ -32,7 +32,11 @@ export function StatsHeader({
 
   const graduationInfo = calculateProjectedGraduation(profile, totalCredits);
 
-  const displayName = anonymize ? 'ANONYMOUS CANDIDATE' : profile.studentName ? profile.studentName.toUpperCase() : 'STUDENT';
+  const displayName = anonymize
+    ? 'ANONYMOUS CANDIDATE'
+    : profile.studentName
+      ? profile.studentName.toUpperCase()
+      : 'STUDENT';
   const displayStudentNum = anonymize ? '••••••••' : profile.studentNumber || '—';
 
   return (
@@ -47,7 +51,9 @@ export function StatsHeader({
             {displayName}
           </h2>
           <div className="mt-1 flex flex-wrap items-center gap-x-2.5 sm:gap-x-3 gap-y-0.5 font-mono text-[10px] sm:text-xs text-neutral-400">
-            <span>ID: <strong className="text-white">{displayStudentNum}</strong></span>
+            <span>
+              ID: <strong className="text-white">{displayStudentNum}</strong>
+            </span>
             {profile.degreeProgramme && (
               <>
                 <span>//</span>
@@ -86,7 +92,9 @@ export function StatsHeader({
           >
             <div className="flex items-center gap-1.5">
               <Calendar className="h-3.5 w-3.5 shrink-0 text-black" />
-              <span>START: <strong>{profile.studyStartDate}</strong></span>
+              <span>
+                START: <strong>{profile.studyStartDate}</strong>
+              </span>
             </div>
             <span className="font-black bg-black text-white px-2 py-0.5 text-[10px] sm:bg-transparent sm:text-black sm:p-0 sm:underline">
               [CHANGE]
@@ -156,9 +164,7 @@ export function StatsHeader({
               <span className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tighter tabular-nums text-black leading-none">
                 {graduationInfo?.paceCreditsPerYear ?? '—'}
               </span>
-              <span className="font-mono text-xs sm:text-sm font-bold text-neutral-600">
-                OP/YR
-              </span>
+              <span className="font-mono text-xs sm:text-sm font-bold text-neutral-600">OP/YR</span>
             </div>
           </div>
           <div className="mt-3 border-t-2 border-black pt-1.5 font-mono text-[9px] sm:text-[10px] text-neutral-600 uppercase tracking-wider truncate">

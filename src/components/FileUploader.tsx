@@ -48,9 +48,7 @@ export function FileUploader({
       const data = await parseSisuPdf(file);
 
       if (data.courses.length === 0) {
-        throw new Error(
-          'NO COURSES DETECTED IN PDF. TRY "PASTE TEXT" TO IMPORT ROWS DIRECTLY.'
-        );
+        throw new Error('NO COURSES DETECTED IN PDF. TRY "PASTE TEXT" TO IMPORT ROWS DIRECTLY.');
       }
 
       onTranscriptLoaded(data);
@@ -128,9 +126,7 @@ export function FileUploader({
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         className={`relative border-2 sm:border-4 border-black p-5 sm:p-12 text-center transition-none ${
-          isDragging
-            ? 'bg-[#daedff] text-black'
-            : 'bg-white text-black'
+          isDragging ? 'bg-[#daedff] text-black' : 'bg-white text-black'
         } ${isLoading ? 'pointer-events-none opacity-70' : ''}`}
       >
         <input
@@ -226,28 +222,39 @@ export function FileUploader({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 pt-1">
               <div className="border-2 border-black p-2.5 sm:p-3 bg-white">
-                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">01</span>
+                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">
+                  01
+                </span>
                 <p className="font-mono text-[11px] sm:text-xs text-neutral-800 uppercase">
-                  LOG IN TO YOUR SISU PORTAL (<span className="text-black font-bold">sisu.helsinki.fi</span>, <span className="text-black font-bold">sisu.aalto.fi</span>).
+                  LOG IN TO YOUR SISU PORTAL (
+                  <span className="text-black font-bold">sisu.helsinki.fi</span>,{' '}
+                  <span className="text-black font-bold">sisu.aalto.fi</span>).
                 </p>
               </div>
 
               <div className="border-2 border-black p-2.5 sm:p-3 bg-white">
-                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">02</span>
+                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">
+                  02
+                </span>
                 <p className="font-mono text-[11px] sm:text-xs text-neutral-800 uppercase">
-                  GO TO <strong>MY PROFILE</strong> &rarr; <strong>COMPLETED CREDITS</strong> (OPINTOSUORITUKSET).
+                  GO TO <strong>MY PROFILE</strong> &rarr; <strong>COMPLETED CREDITS</strong>{' '}
+                  (OPINTOSUORITUKSET).
                 </p>
               </div>
 
               <div className="border-2 border-black p-2.5 sm:p-3 bg-white">
-                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">03</span>
+                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">
+                  03
+                </span>
                 <p className="font-mono text-[11px] sm:text-xs text-neutral-800 uppercase">
                   CLICK <strong>PRINT TRANSCRIPT OF RECORDS</strong> (TULOSTA OPINTOSUORITUSOTE).
                 </p>
               </div>
 
               <div className="border-2 border-black p-2.5 sm:p-3 bg-white">
-                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">04</span>
+                <span className="font-mono text-xl sm:text-2xl font-black text-[#1076db] block mb-0.5">
+                  04
+                </span>
                 <p className="font-mono text-[11px] sm:text-xs text-neutral-800 uppercase">
                   DROP OR SELECT THE RESULTING PDF DIRECTLY INTO SISUKONE FOR IMMEDIATE ANALYSIS.
                 </p>

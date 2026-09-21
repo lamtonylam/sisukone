@@ -2,17 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import { Course } from '@/types/student';
-import {
-  Search,
-  Plus,
-  Trash2,
-  Edit2,
-  Check,
-  X,
-  BookOpen,
-  FileDown,
-  Loader2,
-} from 'lucide-react';
+import { Search, Plus, Trash2, Edit2, Check, X, BookOpen, FileDown, Loader2 } from 'lucide-react';
 
 interface CourseTableProps {
   courses: Course[];
@@ -58,7 +48,7 @@ export function CourseTable({
         if (selectedGradeFilter === 'all') return true;
         if (selectedGradeFilter === 'pass') {
           return ['HYV', 'PASS', 'PASSED', 'GODKÄND', 'G', 'HT', 'TT', 'S'].includes(
-            c.grade.toUpperCase()
+            c.grade.toUpperCase(),
           );
         }
         return c.grade === selectedGradeFilter;
@@ -85,7 +75,7 @@ export function CourseTable({
             credits: Number(editForm.credits) || c.credits,
             passed: editForm.passed !== false,
           } as Course)
-        : c
+        : c,
     );
     onUpdateCourses(updated);
     setEditingCourseId(null);
@@ -110,7 +100,9 @@ export function CourseTable({
       code: newCourse.code.trim().toUpperCase(),
       name: newCourse.name.trim(),
       credits: Number(newCourse.credits) || 5,
-      grade: String(newCourse.grade || '5').trim().toUpperCase(),
+      grade: String(newCourse.grade || '5')
+        .trim()
+        .toUpperCase(),
       date: newCourse.date || new Date().toISOString().split('T')[0],
       passed: newCourse.passed !== false,
       level: newCourse.level,
@@ -214,7 +206,10 @@ export function CourseTable({
           <tbody className="divide-y-2 divide-black text-black">
             {filteredCourses.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-12 text-center font-mono text-xs uppercase text-neutral-500">
+                <td
+                  colSpan={6}
+                  className="py-12 text-center font-mono text-xs uppercase text-neutral-500"
+                >
                   NO MATCHING COURSE ENTRIES LOCATED IN BUFFER.
                 </td>
               </tr>
@@ -246,7 +241,9 @@ export function CourseTable({
                           type="number"
                           step="0.5"
                           value={editForm.credits || 0}
-                          onChange={(e) => setEditForm({ ...editForm, credits: Number(e.target.value) })}
+                          onChange={(e) =>
+                            setEditForm({ ...editForm, credits: Number(e.target.value) })
+                          }
                           className="w-16 border-2 border-black px-2 py-1 font-mono text-xs text-center font-bold"
                         />
                       </td>
@@ -307,10 +304,10 @@ export function CourseTable({
                           course.grade === '5'
                             ? 'bg-[#1076db] text-white'
                             : course.grade === '4'
-                            ? 'bg-black text-white'
-                            : ['3', '2', '1'].includes(course.grade)
-                            ? 'bg-white text-black'
-                            : 'bg-black text-[#daedff]'
+                              ? 'bg-black text-white'
+                              : ['3', '2', '1'].includes(course.grade)
+                                ? 'bg-white text-black'
+                                : 'bg-black text-[#daedff]'
                         }`}
                       >
                         {course.grade}
@@ -406,7 +403,9 @@ export function CourseTable({
                     step="0.5"
                     required
                     value={newCourse.credits}
-                    onChange={(e) => setNewCourse({ ...newCourse, credits: Number(e.target.value) })}
+                    onChange={(e) =>
+                      setNewCourse({ ...newCourse, credits: Number(e.target.value) })
+                    }
                     className="w-full border-2 border-black p-2 font-mono text-xs font-bold text-black focus:outline-none"
                   />
                 </div>

@@ -264,4 +264,3 @@ export const sampleTranscript: TranscriptData = {
     },
   ],
 };
-

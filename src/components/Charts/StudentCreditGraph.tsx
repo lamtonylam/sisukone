@@ -36,10 +36,7 @@ export function StudentCreditGraph({ transcript }: StudentCreditGraphProps) {
   const [showGoalLine, setShowGoalLine] = useState(true);
 
   const { profile, courses } = transcript;
-  const { points, totalCredits } = useMemo(
-    () => calculateCumulativeCredits(courses),
-    [courses]
-  );
+  const { points, totalCredits } = useMemo(() => calculateCumulativeCredits(courses), [courses]);
 
   const chartHeight = HEIGHT_CONFIG[graphSize];
 
@@ -81,7 +78,7 @@ export function StudentCreditGraph({ transcript }: StudentCreditGraphProps) {
       profile.studyStartDate || '2022-08-01',
       maxTimestamp,
       profile.targetCredits || 180,
-      profile.nominalPace || 60
+      profile.nominalPace || 60,
     );
     return goalPoints.map((gp) => [gp.timestamp, gp.credits]);
   }, [showGoalLine, profile, maxTimestamp]);
@@ -390,13 +387,7 @@ export function StudentCreditGraph({ transcript }: StudentCreditGraphProps) {
         },
       },
     };
-  }, [
-    chartHeight,
-    studentSeriesData,
-    goalSeriesData,
-    showGoalLine,
-    profile.studentName,
-  ]);
+  }, [chartHeight, studentSeriesData, goalSeriesData, showGoalLine, profile.studentName]);
 
   return (
     <div className="space-y-3">
@@ -404,7 +395,9 @@ export function StudentCreditGraph({ transcript }: StudentCreditGraphProps) {
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 border-2 border-black bg-white p-2.5 sm:p-3">
         {/* Graph Size Selector */}
         <div className="flex items-center gap-1">
-          <span className="font-mono text-[11px] sm:text-xs font-black uppercase text-black mr-1 sm:mr-2">CANVAS:</span>
+          <span className="font-mono text-[11px] sm:text-xs font-black uppercase text-black mr-1 sm:mr-2">
+            CANVAS:
+          </span>
           {(['small', 'medium', 'large'] as GraphSize[]).map((size) => (
             <button
               key={size}

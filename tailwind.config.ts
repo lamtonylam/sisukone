@@ -1,10 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './index.html',
-    './src/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -37,7 +34,13 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ['var(--font-space-grotesk)', 'Neue Haas Grotesk Display', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        sans: [
+          'var(--font-space-grotesk)',
+          'Neue Haas Grotesk Display',
+          'Helvetica Neue',
+          'Arial',
+          'sans-serif',
+        ],
         serif: ['var(--font-newsreader)', 'Georgia', 'serif'],
         mono: ['var(--font-jetbrains-mono)', 'SFMono-Regular', 'Menlo', 'monospace'],
       },

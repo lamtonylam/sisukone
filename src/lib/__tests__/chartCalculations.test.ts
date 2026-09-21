@@ -84,7 +84,15 @@ describe('chartCalculations - Edge Case & Mathematical Validation', () => {
     it('aggregates multiple courses finished on the exact same date', () => {
       const sameDayCourses: Course[] = [
         { id: '1', code: 'A', name: 'A', credits: 5, grade: '5', date: '2023-05-15', passed: true },
-        { id: '2', code: 'B', name: 'B', credits: 10, grade: '4', date: '2023-05-15', passed: true },
+        {
+          id: '2',
+          code: 'B',
+          name: 'B',
+          credits: 10,
+          grade: '4',
+          date: '2023-05-15',
+          passed: true,
+        },
       ];
       const { points, totalCredits } = calculateCumulativeCredits(sameDayCourses);
       expect(totalCredits).toBe(15);
@@ -106,8 +114,24 @@ describe('chartCalculations - Edge Case & Mathematical Validation', () => {
 
     it('returns null safely for 100% pass/fail courses (zero graded credits, no 0/0 error)', () => {
       const passOnlyCourses: Course[] = [
-        { id: '1', code: 'A', name: 'A', credits: 5, grade: 'HYV', date: '2023-05-15', passed: true },
-        { id: '2', code: 'B', name: 'B', credits: 5, grade: 'Pass', date: '2023-06-15', passed: true },
+        {
+          id: '1',
+          code: 'A',
+          name: 'A',
+          credits: 5,
+          grade: 'HYV',
+          date: '2023-05-15',
+          passed: true,
+        },
+        {
+          id: '2',
+          code: 'B',
+          name: 'B',
+          credits: 5,
+          grade: 'Pass',
+          date: '2023-06-15',
+          passed: true,
+        },
       ];
       expect(calculateWeightedGpa(passOnlyCourses)).toBeNull();
     });
@@ -219,4 +243,3 @@ describe('chartCalculations - Edge Case & Mathematical Validation', () => {
     });
   });
 });
-

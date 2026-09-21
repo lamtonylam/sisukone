@@ -26,6 +26,9 @@ jobs:
       - name: Fast Lint with Oxlint
         run: npx oxlint
 
+      - name: Check Formatting with Prettier
+        run: npm run format:check
+
       - name: Typecheck with TypeScript
         run: npm run typecheck
 
@@ -37,4 +40,3 @@ jobs:
 
       - name: Verify Docker Build
         run: docker build -t sisukone:ci .
-

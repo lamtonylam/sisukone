@@ -1,0 +1,12 @@
+node_modules
+dist
+build
+coverage
+.agent
+.agents
+.kilo
+skills-lock.json
+package-lock.json
+tsconfig.tsbuildinfo
+*.pdf
+.DS_Store

@@ -19,12 +19,7 @@ const DEGREE_PRESETS = [
   { label: 'COMBINED', credits: 300, years: '5 YRS' },
 ];
 
-export function StudyStartModal({
-  isOpen,
-  onClose,
-  profile,
-  onSave,
-}: StudyStartModalProps) {
+export function StudyStartModal({ isOpen, onClose, profile, onSave }: StudyStartModalProps) {
   const [startDate, setStartDate] = useState(profile.studyStartDate || '2022-08-01');
   const [targetCredits, setTargetCredits] = useState(profile.targetCredits || 180);
   const [nominalPace, setNominalPace] = useState(profile.nominalPace || 60);
@@ -253,7 +248,9 @@ export function StudyStartModal({
                     <div className="font-mono text-[10px] sm:text-xs font-black truncate w-full">
                       {preset.label}
                     </div>
-                    <div className={`font-mono text-xs sm:text-base font-black ${isSelected ? 'text-[#1076db]' : 'text-black'}`}>
+                    <div
+                      className={`font-mono text-xs sm:text-base font-black ${isSelected ? 'text-[#1076db]' : 'text-black'}`}
+                    >
                       {preset.credits} OP
                     </div>
                     <div className="font-mono text-[9px] sm:text-[10px] text-neutral-400">

@@ -102,7 +102,10 @@ describe('PDF Exporter Engine', () => {
 
   describe('generateTranscriptPdf', () => {
     it('generates a multi-page PDF document with correct metadata and pages', async () => {
-      const doc = await generateTranscriptPdf(mockTranscript, { anonymize: false, includeChart: false });
+      const doc = await generateTranscriptPdf(mockTranscript, {
+        anonymize: false,
+        includeChart: false,
+      });
 
       expect(doc).toBeDefined();
       expect(doc.getNumberOfPages()).toBeGreaterThanOrEqual(2);
@@ -112,7 +115,10 @@ describe('PDF Exporter Engine', () => {
     });
 
     it('supports anonymization masking in generated document', async () => {
-      const doc = await generateTranscriptPdf(mockTranscript, { anonymize: true, includeChart: false });
+      const doc = await generateTranscriptPdf(mockTranscript, {
+        anonymize: true,
+        includeChart: false,
+      });
 
       expect(doc).toBeDefined();
       const output = doc.output('datauristring');
@@ -135,8 +141,14 @@ describe('PDF Exporter Engine', () => {
     });
 
     it('supports both asc and desc sort order', async () => {
-      const docAsc = await generateTranscriptPdf(mockTranscript, { sortOrder: 'asc', includeChart: false });
-      const docDesc = await generateTranscriptPdf(mockTranscript, { sortOrder: 'desc', includeChart: false });
+      const docAsc = await generateTranscriptPdf(mockTranscript, {
+        sortOrder: 'asc',
+        includeChart: false,
+      });
+      const docDesc = await generateTranscriptPdf(mockTranscript, {
+        sortOrder: 'desc',
+        includeChart: false,
+      });
 
       expect(docAsc.getNumberOfPages()).toBeGreaterThanOrEqual(2);
       expect(docDesc.getNumberOfPages()).toBeGreaterThanOrEqual(2);

@@ -32,7 +32,13 @@ export function calculateAcademicYearSummaries(courses: Course[]): AcademicYearS
   const passedCourses = courses.filter((c) => c.passed && !c.isStudyModuleCredit && c.credits > 0);
   const map = new Map<
     string,
-    { startYear: number; credits: number; coursesCount: number; weightedGpaSum: number; gradedCredits: number }
+    {
+      startYear: number;
+      credits: number;
+      coursesCount: number;
+      weightedGpaSum: number;
+      gradedCredits: number;
+    }
   >();
 
   for (const course of passedCourses) {
@@ -72,7 +78,10 @@ export function calculateAcademicYearSummaries(courses: Course[]): AcademicYearS
       startYear: data.startYear,
       credits: Math.round(data.credits * 10) / 10,
       coursesCount: data.coursesCount,
-      gpa: data.gradedCredits > 0 ? Math.round((data.weightedGpaSum / data.gradedCredits) * 100) / 100 : null,
+      gpa:
+        data.gradedCredits > 0
+          ? Math.round((data.weightedGpaSum / data.gradedCredits) * 100) / 100
+          : null,
     });
   }
 
@@ -110,7 +119,7 @@ async function generateChartImage(transcript: TranscriptData): Promise<string | 
       transcript.profile.studyStartDate || '2022-08-01',
       maxTimestamp,
       transcript.profile.targetCredits || 180,
-      transcript.profile.nominalPace || 60
+      transcript.profile.nominalPace || 60,
     );
 
     const container = document.createElement('div');
@@ -292,7 +301,7 @@ function svgToPng(svgString: string, width: number, height: number): Promise<str
  */
 export async function generateTranscriptPdf(
   transcript: TranscriptData,
-  options: PdfExportOptions = {}
+  options: PdfExportOptions = {},
 ): Promise<jsPDF> {
   const { anonymize = false, includeChart = true, sortOrder = 'desc' } = options;
   const { profile, courses } = transcript;
@@ -396,7 +405,11 @@ export async function generateTranscriptPdf(
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8);
   doc.setTextColor(60, 60, 60);
-  doc.text(degreeStr.length > 55 ? `${degreeStr.slice(0, 52)}...` : degreeStr, marginX + 4, profileY + 17);
+  doc.text(
+    degreeStr.length > 55 ? `${degreeStr.slice(0, 52)}...` : degreeStr,
+    marginX + 4,
+    profileY + 17,
+  );
 
   doc.setFont('courier', 'bold');
   doc.setFontSize(7.5);
@@ -405,7 +418,7 @@ export async function generateTranscriptPdf(
     `START: ${profile.studyStartDate}  //  PACE: ${nominalPace} OP/YR`,
     marginX + contentWidth - 4,
     profileY + 17,
-    { align: 'right' }
+    { align: 'right' },
   );
 
   // ------------------------------------------
@@ -422,7 +435,7 @@ export async function generateTranscriptPdf(
     value: string,
     unit: string,
     subtext: string,
-    progressBarPercent?: number
+    progressBarPercent?: number,
   ) => {
     const x = marginX + index * (kpiWidth + kpiGap);
     doc.setDrawColor(0, 0, 0);
@@ -485,7 +498,7 @@ export async function generateTranscriptPdf(
     String(totalCredits),
     `/ ${targetCredits} OP`,
     '',
-    progressPercent
+    progressPercent,
   );
 
   renderKpiBox(
@@ -493,7 +506,7 @@ export async function generateTranscriptPdf(
     '// 02. GPA (KA)',
     weightedGpa !== null ? weightedGpa.toFixed(2) : '—',
     '/ 5.00',
-    'CREDITS WEIGHTED'
+    'CREDITS WEIGHTED',
   );
 
   renderKpiBox(
@@ -501,7 +514,7 @@ export async function generateTranscriptPdf(
     '// 03. ANNUAL PACE',
     graduationInfo ? String(graduationInfo.paceCreditsPerYear) : '—',
     'OP/YR',
-    `GOAL: ${nominalPace} OP/YR`
+    `GOAL: ${nominalPace} OP/YR`,
   );
 
   renderKpiBox(
@@ -509,7 +522,7 @@ export async function generateTranscriptPdf(
     '// 04. GRADUATION',
     graduationInfo?.projectedDate ? graduationInfo.projectedDate.toUpperCase() : '—',
     '',
-    'LINEAR EXTRAPOLATION'
+    'LINEAR EXTRAPOLATION',
   );
 
   // ------------------------------------------
@@ -550,7 +563,7 @@ export async function generateTranscriptPdf(
         marginX + 1,
         chartBoxY + 6,
         contentWidth - 2,
-        chartBoxHeight - 7
+        chartBoxHeight - 7,
       );
     } else {
       // Fallback clean vector progression line
@@ -561,7 +574,7 @@ export async function generateTranscriptPdf(
         'VELOCITY TIMELINE: ' +
           academicYears.map((ay) => `${ay.academicYear}: ${ay.credits} OP`).join('  |  '),
         marginX + 4,
-        chartBoxY + 15
+        chartBoxY + 15,
       );
 
       // Draw vector progress milestones
@@ -702,12 +715,7 @@ export async function generateTranscriptPdf(
   doc.setFont('courier', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(218, 237, 255);
-  doc.text(
-    displayName,
-    marginX + contentWidth - 3,
-    21.5,
-    { align: 'right' }
-  );
+  doc.text(displayName, marginX + contentWidth - 3, 21.5, { align: 'right' });
 
   // Filter individual courses
   const sortedCourses = [...courses]
@@ -808,11 +816,7 @@ export async function generateTranscriptPdf(
     doc.setFont('courier', 'normal');
     doc.setFontSize(6.5);
     doc.setTextColor(100, 100, 100);
-    doc.text(
-      'SISUKONE // 100% CLIENT-SIDE ENCLAVE // ZERO SERVER STORAGE',
-      marginX,
-      footerY
-    );
+    doc.text('SISUKONE // 100% CLIENT-SIDE ENCLAVE // ZERO SERVER STORAGE', marginX, footerY);
 
     // Right Page Number
     doc.setFont('courier', 'bold');
@@ -829,7 +833,7 @@ export async function generateTranscriptPdf(
  */
 export async function exportTranscriptPdf(
   transcript: TranscriptData,
-  options: PdfExportOptions = {}
+  options: PdfExportOptions = {},
 ): Promise<void> {
   const doc = await generateTranscriptPdf(transcript, options);
 

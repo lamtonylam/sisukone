@@ -63,7 +63,11 @@ export function clusterTextItemsIntoRows(items: PDFTextItem[], tolerance = 4): C
   // Sort items in each row left-to-right by X coordinate and assemble combinedText
   for (const row of rows) {
     row.items.sort((a, b) => a.x - b.x);
-    row.combinedText = row.items.map((i) => i.text).join(' ').replace(/\s+/g, ' ').trim();
+    row.combinedText = row.items
+      .map((i) => i.text)
+      .join(' ')
+      .replace(/\s+/g, ' ')
+      .trim();
   }
 
   // Return rows in reading order (top to bottom)
@@ -110,14 +114,21 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
 
       // Student Name detection
       if (!detectedStudentName) {
-        const fnMatch = line.match(/\b(?:etunimet|förnamn|first names?)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i);
+        const fnMatch = line.match(
+          /\b(?:etunimet|förnamn|first names?)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i,
+        );
         if (fnMatch) {
           const nextRow = rows[i + 1]?.combinedText || '';
-          const lnMatch = nextRow.match(/\b(?:sukunimi|efternamn|last name|surname)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i);
+          const lnMatch = nextRow.match(
+            /\b(?:sukunimi|efternamn|last name|surname)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i,
+          );
           if (lnMatch) {
             detectedStudentName = `${fnMatch[1].trim()} ${lnMatch[1].trim()}`;
           }
-        } else if (/^OPINTOSUORITUSOTE\b|^TRANSCRIPT OF RECORDS\b|^STUDIEPRESTATIONSUTDRAG\b/i.test(line) && rows[i + 1]) {
+        } else if (
+          /^OPINTOSUORITUSOTE\b|^TRANSCRIPT OF RECORDS\b|^STUDIEPRESTATIONSUTDRAG\b/i.test(line) &&
+          rows[i + 1]
+        ) {
           const nextL = rows[i + 1].combinedText.trim();
           if (nextL && !/opiskelija|student|syntymäaika|tutkinto/i.test(nextL)) {
             detectedStudentName = nextL;
@@ -139,21 +150,24 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
       if (!detectedStartDate) {
         const startMatch =
           line.match(
-            /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|opiskeluoikeus alkanut|opinto-oikeus alkoi|study right (?:started|begins)|start(?:ing)? date|startdatum|begynnelsedatum|studierättens startdatum|valid from|giltig från)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i
+            /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|opiskeluoikeus alkanut|opinto-oikeus alkoi|study right (?:started|begins)|start(?:ing)? date|startdatum|begynnelsedatum|studierättens startdatum|valid from|giltig från)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i,
           ) ||
           line.match(
-            /\b(?:voimassa|valid(?:ity)?|giltig(?:het)?)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i
+            /\b(?:voimassa|valid(?:ity)?|giltig(?:het)?)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i,
           );
 
         if (startMatch) {
           const d = parseStandardDate(startMatch[1]);
           if (d) detectedStartDate = d;
         } else if (
-          /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(line) &&
+          /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(
+            line,
+          ) &&
           rows[i + 1]
         ) {
           const nextDateMatch =
-            rows[i + 1].combinedText.match(DATE_EURO_REGEX) || rows[i + 1].combinedText.match(DATE_ISO_REGEX);
+            rows[i + 1].combinedText.match(DATE_EURO_REGEX) ||
+            rows[i + 1].combinedText.match(DATE_ISO_REGEX);
           if (nextDateMatch) {
             const d = parseStandardDate(nextDateMatch[0]);
             if (d) detectedStartDate = d;
@@ -163,7 +177,9 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
 
       // Degree Programme and Target Credits
       if (!detectedDegree) {
-        const degMatch = line.match(/(?:tutkinto-ohjelma|koulutusohjelma|degree programme)[:\s]+(.+)/i);
+        const degMatch = line.match(
+          /(?:tutkinto-ohjelma|koulutusohjelma|degree programme)[:\s]+(.+)/i,
+        );
         if (degMatch) {
           detectedDegree = degMatch[1].replace(/\s*\(\d+\s*op\)/i, '').trim();
         } else if (
@@ -175,7 +191,10 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
         }
       }
 
-      if (/\b(\d{2,3})\s*op\b/i.test(line) && /tutkinto|kandi|maisteri|bachelor|master/i.test(line)) {
+      if (
+        /\b(\d{2,3})\s*op\b/i.test(line) &&
+        /tutkinto|kandi|maisteri|bachelor|master/i.test(line)
+      ) {
         const targetMatch = line.match(/\b(\d{2,3})\s*op\b/i);
         if (targetMatch) {
           const tc = parseInt(targetMatch[1], 10);
@@ -196,7 +215,11 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
       const line = row.combinedText;
 
       // Check section boundaries
-      if (/^Osasuoritukset\b/i.test(line) || /^OPINTOSUORITUSTEN ARVOSANA/i.test(line) || /^Kaikki opintojaksot yhteensä/i.test(line)) {
+      if (
+        /^Osasuoritukset\b/i.test(line) ||
+        /^OPINTOSUORITUSTEN ARVOSANA/i.test(line) ||
+        /^Kaikki opintojaksot yhteensä/i.test(line)
+      ) {
         inOsasuoritukset = true;
       }
       if (/^Opintojaksot\b/i.test(line) || /^Opintosuoritukset\b/i.test(line)) {
@@ -212,7 +235,11 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
       const nextRow = rows[r + 1];
       let continuationLine = '';
       if (nextRow && Math.abs(row.y - nextRow.y) < 20) {
-        if (!DATE_EURO_REGEX.test(nextRow.combinedText) && !DATE_ISO_REGEX.test(nextRow.combinedText) && !CREDITS_REGEX.test(nextRow.combinedText)) {
+        if (
+          !DATE_EURO_REGEX.test(nextRow.combinedText) &&
+          !DATE_ISO_REGEX.test(nextRow.combinedText) &&
+          !CREDITS_REGEX.test(nextRow.combinedText)
+        ) {
           continuationLine = nextRow.combinedText;
         }
       }
@@ -267,5 +294,3 @@ export async function parseSisuPdf(file: File | ArrayBuffer): Promise<Transcript
     courses: allCourses,
   };
 }
-
-

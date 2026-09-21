@@ -1,4 +1,10 @@
-import { Course, CumulativePoint, GoalPoint, GradeDistributionData, MeanPoint } from '@/types/student';
+import {
+  Course,
+  CumulativePoint,
+  GoalPoint,
+  GradeDistributionData,
+  MeanPoint,
+} from '@/types/student';
 import { differenceInDays, format, isValid, parseISO } from 'date-fns';
 
 const MS_PER_DAY = 24 * 60 * 60 * 1000;
@@ -45,13 +51,13 @@ export function createGoalLine(
   startDateStr: string,
   endDateTimestamp: number,
   targetCredits = 180,
-  nominalPace = 60
+  nominalPace = 60,
 ): GoalPoint[] {
   const parsedStart = parseISO(startDateStr);
   const startTime = isValid(parsedStart) ? parsedStart.getTime() : new Date().getTime();
   const safeEndTime = Math.max(
     endDateTimestamp,
-    startTime + (targetCredits / nominalPace) * DAYS_PER_YEAR * MS_PER_DAY
+    startTime + (targetCredits / nominalPace) * DAYS_PER_YEAR * MS_PER_DAY,
   );
 
   const totalYears = (safeEndTime - startTime) / (DAYS_PER_YEAR * MS_PER_DAY);
@@ -231,7 +237,7 @@ export function calculateGradeDistribution(courses: Course[]): GradeDistribution
     '3': { count: 0, credits: 0 },
     '2': { count: 0, credits: 0 },
     '1': { count: 0, credits: 0 },
-    'Pass': { count: 0, credits: 0 },
+    Pass: { count: 0, credits: 0 },
   };
 
   let totalCount = 0;
@@ -265,7 +271,7 @@ export function calculateGradeDistribution(courses: Course[]): GradeDistribution
  */
 export function calculateProjectedGraduation(
   profile: { studyStartDate: string; targetCredits: number },
-  currentCredits: number
+  currentCredits: number,
 ): { projectedDate: string; paceCreditsPerYear: number } | null {
   if (currentCredits <= 0) return null;
 

@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --font-space-grotesk: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-space-grotesk:
+    'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-newsreader: 'Playfair Display', Georgia, serif;
   --font-jetbrains-mono: 'JetBrains Mono', SFMono-Regular, Menlo, monospace;
 
-  --fudis-rem-multiplier: .625;
+  --fudis-rem-multiplier: 0.625;
   --fudis-color-primary-light: #daedff;
   --fudis-color-primary: #1076db;
   --fudis-color-primary-dark: #1d65b8;
@@ -31,7 +32,7 @@ body {
   color: var(--text);
   background-color: var(--bg);
   min-height: 100vh;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'tnum';
 }
 
 ::selection {

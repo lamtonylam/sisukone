@@ -5,7 +5,8 @@ export const DATE_EURO_REGEX = /\b(\d{1,2})[.](\d{1,2})[.](\d{4})\b/;
 export const DATE_ISO_REGEX = /\b(\d{4})[-/](\d{1,2})[-/](\d{1,2})\b/;
 export const CREDITS_REGEX = /\b(\d+(?:[.,]\d+)?)\s*(?:op|cr|sp|ects|credits|credit|pisteet)\b/i;
 export const LANGUAGE_REGEX = /\b(fi|sv|en|de|fr|es|ru|it|zh|ja)\b/i;
-export const GRADE_TEXT_REGEX = /^(HYVÄKSYTTY|GODKÄND|PASSED|HYLÄTTY|FAILED|HYV\.?|GODK\.?|PASS|HYL|HT|TT|FAIL|UNDERKÄND|UNDERK\.?|S|G)$/i;
+export const GRADE_TEXT_REGEX =
+  /^(HYVÄKSYTTY|GODKÄND|PASSED|HYLÄTTY|FAILED|HYV\.?|GODK\.?|PASS|HYL|HT|TT|FAIL|UNDERKÄND|UNDERK\.?|S|G)$/i;
 export const GRADE_NUM_REGEX = /^[0-5]$/;
 
 // Known module titles to exclude from single course list
@@ -82,14 +83,18 @@ export function extractCourseCode(text: string): { code: string; isParenthesized
 /**
  * Parse a course from a single line or combined multi-line text
  */
-export function parseCourseFromLine(line: string, index: number, continuationLine = ''): Course | null {
+export function parseCourseFromLine(
+  line: string,
+  index: number,
+  continuationLine = '',
+): Course | null {
   const trimmed = line.trim();
   if (!trimmed || trimmed.length < 4) return null;
 
   // Header / Footer exclusions
   if (
     /^(suorituksen nimi ja koodi|opintojaksot|osasuoritukset|tutkintosuoritukset|opintosuoritusten arvosana|kaikki opintojaksot|helsingin yliopisto|pl 3|puh\.|helsinki\.fi|\d+\s*\/\s*\d+)/i.test(
-      trimmed
+      trimmed,
     )
   ) {
     return null;
@@ -118,7 +123,9 @@ export function parseCourseFromLine(line: string, index: number, continuationLin
     creditsLength = creditsMatch[0].length;
   } else {
     // If no "op" suffix, check if standard tabular format has a bare credit number before grade & date
-    const bareMatch = trimmed.match(/\s+(\d+(?:[.,]\d+)?)\s+(?:[A-Za-z0-9.]+\s+)?(?:\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})\b/);
+    const bareMatch = trimmed.match(
+      /\s+(\d+(?:[.,]\d+)?)\s+(?:[A-Za-z0-9.]+\s+)?(?:\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})\b/,
+    );
     if (bareMatch) {
       credits = parseFloat(bareMatch[1].replace(',', '.'));
       creditsIndex = trimmed.indexOf(bareMatch[1]);
@@ -155,7 +162,11 @@ export function parseCourseFromLine(line: string, index: number, continuationLin
     }
   }
 
-  if (['0', 'HYL', 'HYLÄTTY', 'FAIL', 'FAILED', 'UNDERKÄND', 'UNDERK', 'UNDERK.'].includes(grade.toUpperCase())) {
+  if (
+    ['0', 'HYL', 'HYLÄTTY', 'FAIL', 'FAILED', 'UNDERKÄND', 'UNDERK', 'UNDERK.'].includes(
+      grade.toUpperCase(),
+    )
+  ) {
     passed = false;
   }
 
@@ -209,7 +220,10 @@ export function parseRawTranscriptText(rawText: string): {
   studentNumber?: string;
   degreeProgramme?: string;
 } {
-  const lines = rawText.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  const lines = rawText
+    .split(/\r?\n/)
+    .map((l) => l.trim())
+    .filter(Boolean);
   const courses: Course[] = [];
   let studyStartDate: string | undefined;
   let studentName: string | undefined;
@@ -221,10 +235,14 @@ export function parseRawTranscriptText(rawText: string): {
 
     // Student Name
     if (!studentName) {
-      const fnMatch = line.match(/\b(?:etunimet|förnamn|first names?|nimi|name)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i);
+      const fnMatch = line.match(
+        /\b(?:etunimet|förnamn|first names?|nimi|name)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i,
+      );
       if (fnMatch) {
         const nextLine = lines[i + 1] || '';
-        const lnMatch = nextLine.match(/\b(?:sukunimi|efternamn|last name|surname)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i);
+        const lnMatch = nextLine.match(
+          /\b(?:sukunimi|efternamn|last name|surname)[:\s]+([A-Za-zÀ-ÖØ-öø-ÿ\s-]+)/i,
+        );
         if (lnMatch) {
           studentName = `${fnMatch[1].trim()} ${lnMatch[1].trim()}`;
         } else {
@@ -240,7 +258,9 @@ export function parseRawTranscriptText(rawText: string): {
 
     // Student Number
     if (!studentNumber) {
-      const snMatch = line.match(/\b(?:opiskelijanumero|student number|studienummer)[:\s]+(\d{6,10})\b/i) || line.match(/\b(01\d{7}|\d{8,9})\b/);
+      const snMatch =
+        line.match(/\b(?:opiskelijanumero|student number|studienummer)[:\s]+(\d{6,10})\b/i) ||
+        line.match(/\b(01\d{7}|\d{8,9})\b/);
       if (snMatch) {
         studentNumber = snMatch[snMatch.length - 1];
       }
@@ -250,20 +270,23 @@ export function parseRawTranscriptText(rawText: string): {
     if (!studyStartDate) {
       const startMatch =
         line.match(
-          /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|opiskeluoikeus alkanut|opinto-oikeus alkoi|study right (?:started|begins)|start(?:ing)? date|startdatum|begynnelsedatum|studierättens startdatum|valid from|giltig från)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i
+          /\b(?:aloituspäivä(?:määrä)?|alkamispäivä|opiskeluoikeus alkanut|opinto-oikeus alkoi|study right (?:started|begins)|start(?:ing)? date|startdatum|begynnelsedatum|studierättens startdatum|valid from|giltig från)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i,
         ) ||
         line.match(
-          /\b(?:voimassa|valid(?:ity)?|giltig(?:het)?)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i
+          /\b(?:voimassa|valid(?:ity)?|giltig(?:het)?)[:\s]+(\d{1,2}[.]\d{1,2}[.]\d{4}|\d{4}[-/]\d{1,2}[-/]\d{1,2})/i,
         );
 
       if (startMatch) {
         const d = parseStandardDate(startMatch[1]);
         if (d) studyStartDate = d;
       } else if (
-        /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(line) &&
+        /(?:^|[\s:])(?:aloituspäivä(?:määrä)?|alkamispäivä|start(?:ing)? date|startdatum|begynnelsedatum)(?:[\s:]|$)/i.test(
+          line,
+        ) &&
         lines[i + 1]
       ) {
-        const nextDateMatch = lines[i + 1].match(DATE_EURO_REGEX) || lines[i + 1].match(DATE_ISO_REGEX);
+        const nextDateMatch =
+          lines[i + 1].match(DATE_EURO_REGEX) || lines[i + 1].match(DATE_ISO_REGEX);
         if (nextDateMatch) {
           const d = parseStandardDate(nextDateMatch[0]);
           if (d) studyStartDate = d;
@@ -273,10 +296,16 @@ export function parseRawTranscriptText(rawText: string): {
 
     // Degree Programme
     if (!degreeProgramme) {
-      const degMatch = line.match(/(?:tutkinto-ohjelma|koulutusohjelma|degree programme)[:\s]+(.+)/i);
+      const degMatch = line.match(
+        /(?:tutkinto-ohjelma|koulutusohjelma|degree programme)[:\s]+(.+)/i,
+      );
       if (degMatch) {
         degreeProgramme = degMatch[1].replace(/\s*\(\d+\s*op\)/i, '').trim();
-      } else if (/(?:kandiohjelma|maisteriohjelma|bachelor's programme|master's programme)/i.test(line) && !line.includes('180 op') && !line.includes('3V + 2V')) {
+      } else if (
+        /(?:kandiohjelma|maisteriohjelma|bachelor's programme|master's programme)/i.test(line) &&
+        !line.includes('180 op') &&
+        !line.includes('3V + 2V')
+      ) {
         degreeProgramme = line.trim();
       }
     }
@@ -305,4 +334,3 @@ export function parseRawTranscriptText(rawText: string): {
     degreeProgramme,
   };
 }
-

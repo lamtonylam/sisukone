@@ -45,7 +45,12 @@ export function GradeDistribution({ courses }: GradeDistributionProps) {
         lineColor: '#000000',
         lineWidth: 2,
         labels: {
-          style: { color: '#000000', fontSize: '10px', fontFamily: 'monospace', fontWeight: 'bold' },
+          style: {
+            color: '#000000',
+            fontSize: '10px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+          },
         },
       },
       yAxis: {
@@ -54,13 +59,23 @@ export function GradeDistribution({ courses }: GradeDistributionProps) {
         lineWidth: 2,
         title: {
           text: 'COURSES',
-          style: { color: '#000000', fontSize: '10px', fontFamily: 'monospace', fontWeight: 'bold' },
+          style: {
+            color: '#000000',
+            fontSize: '10px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+          },
         },
         gridLineWidth: 1,
         gridLineColor: '#e5e5e5',
         gridLineDashStyle: 'Dash',
         labels: {
-          style: { color: '#000000', fontSize: '10px', fontFamily: 'monospace', fontWeight: 'bold' },
+          style: {
+            color: '#000000',
+            fontSize: '10px',
+            fontFamily: 'monospace',
+            fontWeight: 'bold',
+          },
         },
       },
       responsive: {

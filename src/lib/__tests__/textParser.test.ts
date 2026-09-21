@@ -161,13 +161,16 @@ describe('textParser - Sisu Transcript Parsing Engine', () => {
     });
 
     it('handles multiline wrapped course entry with code and CEFR on continuation line', () => {
-      const line1 = 'Academic and Professional Communication in English 1 & 2 4 op en Hyv. 5.12.2024';
+      const line1 =
+        'Academic and Professional Communication in English 1 & 2 4 op en Hyv. 5.12.2024';
       const line2 = '(CEFR B2) (KK-ENKAIKKI)';
       const course = parseCourseFromLine(line1, 0, line2);
 
       expect(course).not.toBeNull();
       expect(course?.code).toBe('KK-ENKAIKKI');
-      expect(course?.name).toBe('Academic and Professional Communication in English 1 & 2 (CEFR B2)');
+      expect(course?.name).toBe(
+        'Academic and Professional Communication in English 1 & 2 (CEFR B2)',
+      );
       expect(course?.credits).toBe(4);
       expect(course?.grade).toBe('HYV');
       expect(course?.date).toBe('2024-12-05');
@@ -258,4 +261,3 @@ Aloituspäivä
     });
   });
 });
-

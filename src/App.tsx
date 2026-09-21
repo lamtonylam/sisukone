@@ -9,13 +9,7 @@ import { StudentGradeGraph } from '@/components/Charts/StudentGradeGraph';
 import { GradeDistribution } from '@/components/Charts/GradeDistribution';
 import { CourseTable } from '@/components/CourseTable/CourseTable';
 import { exportTranscriptPdf } from '@/lib/pdfExporter';
-import {
-  LineChart,
-  BarChart3,
-  Table as TableIcon,
-  ShieldCheck,
-  Zap,
-} from 'lucide-react';
+import { LineChart, BarChart3, Table as TableIcon, ShieldCheck, Zap } from 'lucide-react';
 
 const STORAGE_KEY = 'sisukone_transcript_data_v1';
 
@@ -136,13 +130,15 @@ export default function App() {
               </div>
 
               <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter text-black leading-[0.92] break-words">
-                YOUR <span className="font-serif italic font-normal text-[#1076db]">Degree,</span><br className="sm:hidden" />
-                {' '}UNFILTERED.
+                YOUR <span className="font-serif italic font-normal text-[#1076db]">Degree,</span>
+                <br className="sm:hidden" /> UNFILTERED.
               </h1>
 
               <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t-2 border-black">
                 <p className="font-mono text-xs sm:text-sm uppercase tracking-wider text-black leading-relaxed max-w-3xl">
-                  TRANSFORM OFFICIAL SISU UNIVERSITY TRANSCRIPTS INTO INTERACTIVE, CLIENT-SIDE CREDIT PROGRESSION VELOCITY CURVES AND LONGITUDINAL GRADE ARCHIVES. ZERO SERVER STORAGE.
+                  TRANSFORM OFFICIAL SISU UNIVERSITY TRANSCRIPTS INTO INTERACTIVE, CLIENT-SIDE
+                  CREDIT PROGRESSION VELOCITY CURVES AND LONGITUDINAL GRADE ARCHIVES. ZERO SERVER
+                  STORAGE.
                 </p>
               </div>
             </div>
@@ -169,7 +165,10 @@ export default function App() {
 
             {/* Navigation Tabs - Horizontally scrollable on mobile */}
             <div className="border-b-2 border-black pb-0">
-              <nav className="-mb-[2px] flex overflow-x-auto no-scrollbar gap-1 sm:gap-2 pb-0" aria-label="Tabs">
+              <nav
+                className="-mb-[2px] flex overflow-x-auto no-scrollbar gap-1 sm:gap-2 pb-0"
+                aria-label="Tabs"
+              >
                 <button
                   type="button"
                   onClick={() => setActiveTab('credit')}

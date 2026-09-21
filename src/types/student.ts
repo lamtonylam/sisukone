@@ -16,8 +16,8 @@ export interface StudentProfile {
   studentNumber?: string;
   degreeProgramme?: string;
   studyStartDate: string; // ISO format: YYYY-MM-DD
-  targetCredits: number;  // 180 (Bachelor), 120 (Master), 300 (Combined)
-  nominalPace: number;    // ECTS / year, default 60
+  targetCredits: number; // 180 (Bachelor), 120 (Master), 300 (Combined)
+  nominalPace: number; // ECTS / year, default 60
 }
 
 export interface TranscriptData {
@@ -54,5 +54,3 @@ export interface GradeDistributionData {
   credits: number;
   percentage: number;
 }
-
-

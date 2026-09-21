@@ -28,7 +28,7 @@ Supports transcripts in **Finnish, Swedish, and English** from any university ru
 ## How to get your transcript
 
 1. Log into your university's Sisu portal (`sisu.helsinki.fi`, `sisu.aalto.fi`, etc.).
-2. Go to **My Profile** → **Attainments** (*Opintosuoritukset*).
+2. Go to **My Profile** → **Attainments** (_Opintosuoritukset_).
 3. Click **Export transcript** / **Tulosta opintosuoritusote** in the top right.
 4. Download the PDF and drop it into Sisukone (or click **Load Sample Demo** to try it with dummy data).
 
@@ -70,6 +70,7 @@ npm run preview
 ```bash
 docker compose up --build
 ```
+
 Runs at `http://localhost:3000`.
 
 ---
