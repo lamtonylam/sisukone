@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-space-grotesk: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-newsreader: 'Playfair Display', Georgia, serif;
+  --font-jetbrains-mono: 'JetBrains Mono', SFMono-Regular, Menlo, monospace;
+
+  --fudis-rem-multiplier: .625;
+  --fudis-color-primary-light: #daedff;
+  --fudis-color-primary: #1076db;
+  --fudis-color-primary-dark: #1d65b8;
+
+  --bg: #ffffff;
+  --bg-inverse: #000000;
+  --text: #000000;
+  --text-inverse: #ffffff;
+  --accent: #1076db;
+  --accent-hover: #1d65b8;
+  --accent-light: #daedff;
+  --border: #000000;
+  --rule: #000000;
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+body {
+  color: var(--text);
+  background-color: var(--bg);
+  min-height: 100vh;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11", "tnum";
+}
+
+::selection {
+  background-color: var(--accent);
+  color: #ffffff;
+}
+
+/* Hard-edge brutalist scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #ffffff;
+  border-left: 2px solid #000000;
+  border-top: 2px solid #000000;
+}
+::-webkit-scrollbar-thumb {
+  background: #000000;
+  border-radius: 0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* Highcharts brutalist overrides */
+.highcharts-container {
+  font-family: inherit !important;
+}
+.highcharts-tooltip,
+.highcharts-tooltip * {
+  pointer-events: none !important;
+}
+.highcharts-tooltip-box {
+  stroke-width: 2px !important;
+  stroke: #000000 !important;
+  rx: 0 !important;
+  ry: 0 !important;
+}
+.highcharts-range-selector-buttons text {
+  font-family: inherit !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+}

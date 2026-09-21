@@ -1,0 +1,12 @@
+services:
+  sisukone:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sisukone
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+

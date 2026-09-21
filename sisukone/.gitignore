@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.DS_Store
+tsconfig.tsbuildinfo
+
+Suoritusote*
+
+.agent
+.agents
+skills-lock.json
